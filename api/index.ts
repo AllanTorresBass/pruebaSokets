@@ -12,7 +12,7 @@ interface error {
  
 
 
-io.on("connection", (socket:any, callback:any)=>{
+io.on("connection", (socket:any)=>{
     console.log("User conneted: " + socket.id)
     
 	 
@@ -42,9 +42,7 @@ io.on("connection", (socket:any, callback:any)=>{
 	socket.broadcast.emit('Travel', travel)
 	 
     
-	callback({
-		status: TravelId
-	  });
+	 
 	 
  })
      socket.on("response",async(data:any)=>{
