@@ -12,11 +12,18 @@ interface error {
  
 
 
-io.on("connection", (socket:any)=>{
+io.on("connection", (socket:any, callback:any)=>{
     console.log("User conneted: " + socket.id)
     
-    socket.on("message",async(data:any)=>{
-      console.log(data)
+	 
+	 
+	  
+ 
+
+
+    socket.on("message",async(data:any, callback:any)=>{
+		console.log(data)
+	 
       const { userId, orig, destination, weight, price, description }= data
       let TravelId= uuid();
 		var newViaje = {
@@ -32,7 +39,13 @@ io.on("connection", (socket:any)=>{
    // console.log('traveles: ',traveles);
     socket.broadcast.emit('message', newViaje)
 	let travel = await Travel.findAll()  
-	 socket.broadcast.emit('Travel', travel)
+	socket.broadcast.emit('Travel', travel)
+	 
+    
+	callback({
+		status: TravelId
+	  });
+	 
  })
      socket.on("response",async(data:any)=>{
         console.log(data)
@@ -40,7 +53,9 @@ io.on("connection", (socket:any)=>{
       socket.broadcast.emit('response', data)
    })
 
- 
+   callback({
+	status: 'TravelId'
+  });
 
    
 })

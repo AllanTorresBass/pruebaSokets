@@ -6,6 +6,7 @@ const socket = io.connect("http://localhost:3001");
 socket.on('connection')
 function App() {
   
+  let [travelId, setTravelId] = useState("");
   let [travels, setTravels] = useState("");
   let [radio, setRadio] = useState("");
   let [input, setInput] = useState("");
@@ -25,7 +26,10 @@ function App() {
          
         setTravels(data);
       });
-    }, [socket,travels]);
+    
+
+
+    }, [socket]);
 
     
    console.log(travels);
@@ -34,11 +38,13 @@ function App() {
     setshowData(data)
 })
        
-      const sendMessage = () =>{
+const sendMessage = () =>{
  
-       socket.emit('message',input);
-
-    }
+   socket.emit('message', input , (response) => {
+    console.log(response.status); // ok
+    setTravelId(response.status);
+    });
+}
     const respMessage = () =>{
       const aceparTravel={
         carrierId:'09135748-3751-40fe-b016-a6a601cc42cc',
@@ -74,6 +80,7 @@ function App() {
      { radio.tipo==='1' ?( 
          <>
         <h2>Usuario</h2>
+        <h4>Id del viaje solicitado {travelId}</h4>
        userId <input type="text" name="userId"   onChange={handleInput}/><br/>
        Origen <input type="text" name="orig"   onChange={handleInput}/><br/>
         Destino <input type="text" name="destination"   onChange={handleInput}/><br/>
@@ -99,6 +106,7 @@ function App() {
      ): radio.tipo==='0' ?( 
        <>
      <h2>transportista</h2> 
+     <h4>Id del viaje solicitado {travelId}</h4>
      <h3> {showData.id!==''?(
      <> 
      <ul style={{listStyleType: 'none',textAlign:'center'}}>
