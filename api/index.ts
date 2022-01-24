@@ -51,10 +51,7 @@ io.on("connection", (socket:any)=>{
       socket.broadcast.emit('response', data)
    })
 
-   callback({
-	status: 'TravelId'
-  });
-
+  
    
 })
 

@@ -12,7 +12,7 @@ function App() {
   let [input, setInput] = useState("");
   let [showData, setshowData] = useState(
     {
-      userId:'', 
+      id:'', 
       orig:'', 
       destination:'', 
       weight:'', 
@@ -67,6 +67,7 @@ const sendMessage = () =>{
   
    // travels.foreach((el)=>console.log(el.id))
  //  { travels.map((el)=><p>{el.id}</p>)}
+ console.log(showData)
   return (
     <div className="App">
    
@@ -106,22 +107,25 @@ const sendMessage = () =>{
      ): radio.tipo==='0' ?( 
        <>
      <h2>transportista</h2> 
-     <h4>Id del viaje solicitado {travelId}</h4>
+      
      <h3> {showData.id!==''?(
      <> 
-     <ul style={{listStyleType: 'none',textAlign:'center'}}>
-                <li><b style={{marginRight:"30px",textDecoration: 'solid underline purple 4px'}}>userId:</b> <i>{showData.userId}</i></li> 
-                <li><b style={{marginRight:"30px",textDecoration: 'solid underline purple 4px'}}>Origen:</b> <i>{showData.orig}</i></li>
-                <li><b style={{marginRight:"30px",textDecoration: 'solid underline purple 4px'}}>Destino:</b> <i>{showData.destination}</i></li>
-                <li><b style={{marginRight:"30px",textDecoration: 'solid underline purple 4px'}}>Peso:</b> <i>{showData.weight}</i></li>
-                <li><b style={{marginRight:"30px",textDecoration: 'solid underline purple 4px'}}>Precio:</b> <i>{showData.price}</i></li>
-                <li><b style={{marginRight:"30px",textDecoration: 'solid underline purple 4px'}}>description:</b> <i>{showData.description}</i></li>
-                </ul>
-                 <button onClick={respMessage}>Response Message</button>
+      { showData.id?
+          (<><ul style={{listStyleType: 'none',textAlign:'center'}}>
+                      <li><b style={{marginRight:"30px",textDecoration: 'solid underline purple 4px'}}>userId:</b> <i>{showData.userId}</i></li> 
+                      <li><b style={{marginRight:"30px",textDecoration: 'solid underline purple 4px'}}>Origen:</b> <i>{showData.orig}</i></li>
+                      <li><b style={{marginRight:"30px",textDecoration: 'solid underline purple 4px'}}>Destino:</b> <i>{showData.destination}</i></li>
+                      <li><b style={{marginRight:"30px",textDecoration: 'solid underline purple 4px'}}>Peso:</b> <i>{showData.weight}</i></li>
+                      <li><b style={{marginRight:"30px",textDecoration: 'solid underline purple 4px'}}>Precio:</b> <i>{showData.price}</i></li>
+                      <li><b style={{marginRight:"30px",textDecoration: 'solid underline purple 4px'}}>description:</b> <i>{showData.description}</i></li>
+                      </ul>
+          <button onClick={respMessage}>Response Message</button></>):'Esperando viaje Actual'
+         
+         }
            <div>
-                  <h1>Aqui van los viajes</h1>
+                  <h1>Lista de viajes</h1>
                  <lu style={{listStyleType: 'none',textAlign:'center',fontSize:'8px'}}>
-                       {travels.map(el=><li>{el.id} - {el.orig} - {el.destination} - {el.price} - {el.weight} - {el.userId}</li>)}  
+                       {travels?(travels.map(el=><li>{el.id} - {el.orig} - {el.destination} - {el.price} - {el.weight} - {el.userId}</li>)):''}  
                   {/* {travels.for((el,index)=>
                        <li key={index}> {el[index].id} </li>
                
