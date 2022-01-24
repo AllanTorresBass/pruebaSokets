@@ -1,5 +1,7 @@
 import app from "./src/app";
 import { Travel } from './src/models/Travel';
+import { Carrier } from './src/models/Carrier';
+import { User_Reg } from './src/models/User_Reg';
 import { sequelize } from "./src/db";
 import { uuid } from 'uuidv4';
 const { Op } = require("sequelize");
@@ -46,12 +48,29 @@ io.on("connection", (socket:any)=>{
 	 
  })
      socket.on("response",async(data:any)=>{
-        console.log(data)
+       
+    const dateCarrier = await Carrier.findAll({where: { id: data.carrierId}})
+ 	const userReg = await User_Reg.findAll({where: { id : dateCarrier[0].idUserReg}})
    const upTravel = await Travel.update({ carrierId: data.carrierId }, { where: { userId:data.userId, carrierId:{[Op.eq]: null}}});
-      socket.broadcast.emit('response', data)
+   const resp = {
+	 	userReg: userReg[0],
+	 	dateCarrier: dateCarrier[0]
+	 	}
+		 console.log(resp)
+   socket.broadcast.emit('response', resp)
    })
 
-  
+//    socket.on("response", async (data: any) => {
+// 	console.log(data)
+// 	const dateCarrier = await Carrier.findAll({where: { id: data.carrierId}})
+// 	const userReg = await User_Reg.findAll({where: { id : dateCarrier[0].idUserReg}})
+// 	const resp = {
+// 		userReg: userReg[0],
+// 		dateCarrier: dateCarrier[0]
+// 	}
+// 	const upTravel = await Travel.update({ carrierId: data.carrierId }, { where: { userId: data.userId, carrierId: { [Op.eq]: null } } });
+// 	socket.broadcast.emit('response', resp)
+// })
    
 })
 

@@ -10,7 +10,7 @@ function App() {
   let [travels, setTravels] = useState("");
   let [radio, setRadio] = useState("");
   let [input, setInput] = useState("");
-  let [showData, setshowData] = useState(
+  let [showData, setshowData] = useState( 
     {
       id:'', 
       orig:'', 
@@ -20,11 +20,15 @@ function App() {
       description:''
      }
     );
-
+    let [dataCarrier, setDataCarrier] = useState("");
     useEffect(() => {
       socket.on("Travel", (data) => {
          
         setTravels(data);
+      });
+      socket.on('response', (data) => {
+         console.log(data)
+        setDataCarrier(data);
       });
     
 
@@ -32,7 +36,7 @@ function App() {
     }, [socket]);
 
     
-   console.log(travels);
+  // console.log(travels);
    
   socket.on("message",(data)=>{
     setshowData(data)
@@ -67,7 +71,7 @@ const sendMessage = () =>{
   
    // travels.foreach((el)=>console.log(el.id))
  //  { travels.map((el)=><p>{el.id}</p>)}
- console.log(showData)
+// console.log(showData)
   return (
     <div className="App">
    
@@ -89,20 +93,10 @@ const sendMessage = () =>{
          Precio <input type="text" name="price"   onChange={handleInput}/><br/>
         descripcion <input type="text" name="description"   onChange={handleInput}/><br/>
          <button onClick={sendMessage}>Send Message</button>
-         {/* <h3> {showData.userId!==''?(
-           <>   <ul style={{listStyleType: 'none',textAlign:'left'}}>
-                <li>userId {showData.userId}</li> 
-                <li>Origen {showData.orig}</li>
-                <li>Destino {showData.destination}</li>
-                <li>Peso {showData.weight}</li>
-                <li>Precio {showData.price}</li>
-                <li>description {showData.description}</li>
-                <li></li>
-                </ul>
-               
-          </>
-                ):'esperando Respuesta'}
-        </h3> */}
+            <h3>Acptado por el conductor: 
+              <br/>{dataCarrier.userReg.name} {dataCarrier.userReg.lastName}
+              <br/>tlf: {dataCarrier.userReg.phone} eMail: {dataCarrier.userReg.eMail}
+              </h3>
          </>
      ): radio.tipo==='0' ?( 
        <>
