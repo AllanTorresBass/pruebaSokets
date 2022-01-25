@@ -93,10 +93,15 @@ const sendMessage = () =>{
          Precio <input type="text" name="price"   onChange={handleInput}/><br/>
         descripcion <input type="text" name="description"   onChange={handleInput}/><br/>
          <button onClick={sendMessage}>Send Message</button>
-            <h3>Acptado por el conductor: 
-              <br/>{dataCarrier.userReg.name} {dataCarrier.userReg.lastName}
-              <br/>tlf: {dataCarrier.userReg.phone} eMail: {dataCarrier.userReg.eMail}
-              </h3>
+          
+               {dataCarrier? 
+               (<h3>Acptado por el conductor: 
+              
+                <br/>{dataCarrier.userReg.name} {dataCarrier.userReg.lastName}
+              <br/>tlf: {dataCarrier?.userReg.phone} eMail: {dataCarrier.userReg.eMail}
+
+                    </h3>):(<h3><br/>'Viaje por aceptar'</h3>)
+               }
          </>
      ): radio.tipo==='0' ?( 
        <>
